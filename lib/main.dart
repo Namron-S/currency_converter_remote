@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'simple currency converter',
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -90,54 +91,67 @@ class _MyHomePageState extends State {
       ),
       body: Center(
         child: Table(
+          defaultColumnWidth: FractionColumnWidth(0.45),
           children: <TableRow>[
             TableRow(children: <Widget>[
-              DropdownButton<String>(
-                value: baseCurrencyName,
-                items: listCurNames.map((String curName) {
-                  return new DropdownMenuItem<String>(
-                    value: curName,
-                    child: new Text(curName),
-                  );
-                }).toList(),
-                onChanged: (String newCurName) {
-                  setState(() {
-                    baseCurrencyName = newCurName;
-                    convertCurrency();
-                  });
-                },
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: DropdownButton<String>(
+                  value: baseCurrencyName,
+                  items: listCurNames.map((String curName) {
+                    return new DropdownMenuItem<String>(
+                      value: curName,
+                      child: new Text(curName),
+                    );
+                  }).toList(),
+                  onChanged: (String newCurName) {
+                    setState(() {
+                      baseCurrencyName = newCurName;
+                      convertCurrency();
+                    });
+                  },
+                ),
               ),
-              DropdownButton<String>(
-                value: targetCurrencyName,
-                items: listCurNames.map((String curName) {
-                  return new DropdownMenuItem<String>(
-                    value: curName,
-                    child: new Text(curName),
-                  );
-                }).toList(),
-                onChanged: (String newCurName) {
-                  setState(() {
-                    targetCurrencyName = newCurName;
-                    convertCurrency();
-                  });
-                },
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: DropdownButton<String>(
+                  value: targetCurrencyName,
+                  items: listCurNames.map((String curName) {
+                    return new DropdownMenuItem<String>(
+                      value: curName,
+                      child: new Text(curName),
+                    );
+                  }).toList(),
+                  onChanged: (String newCurName) {
+                    setState(() {
+                      targetCurrencyName = newCurName;
+                      convertCurrency();
+                    });
+                  },
+                ),
               ),
             ]),
             TableRow(children: <Widget>[
-              TextField(
-                onSubmitted: (value) => convertCurrency(),
-                inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(), labelText: 'Base Amount'),
-                controller: baseAmountController,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  onSubmitted: (value) => convertCurrency(),
+                  inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(), labelText: 'Base Amount'),
+                  controller: baseAmountController,
+                ),
               ),
-              TextField(
-                inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(), labelText: 'Target Amount'),
-                controller: targetAmountController,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(), labelText: 'Target Amount'),
+                  controller: targetAmountController,
+                ),
               ),
             ]),
           ],
