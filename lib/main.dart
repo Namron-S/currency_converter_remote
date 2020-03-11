@@ -3,8 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-//TODO: editor shortcut fürs auskommentieren belegen
-
 void main() {
   runApp(MyApp());
 }
@@ -59,7 +57,6 @@ class _MyHomePageState extends State {
     if (resp.statusCode != 200) {
       showAlertDialog(context, 'Failed to load currency rates.');
     } else {
-      debugPrint(resp.body);
       Map<String, dynamic> respAsJson = jsonDecode(resp.body);
       double rate = getRate(respAsJson);
       double newTargetAmount = calcTargetAmount(rate);
@@ -68,7 +65,8 @@ class _MyHomePageState extends State {
   }
 
   void setTargetAmount(double newTargetAmount) {
-    targetAmountController.text = newTargetAmount.toString();
+    targetAmountController.text =
+        newTargetAmount.toStringAsFixed(2); //two fraction digits only
   }
 
   double calcTargetAmount(double rate) {
@@ -176,39 +174,39 @@ class _MyHomePageState extends State {
   }
 
   final List<String> listCurNames = [
-    "EUR",
-    "USD",
-    "GBP",
-    "CAD",
-    "AUD",
-    "HKD",
-    "ISK",
-    "PHP",
-    "DKK",
-    "HUF",
-    "CZK",
-    "RON",
-    "SEK",
-    "IDR",
-    "INR",
-    "BRL",
-    "RUB",
-    "HRK",
-    "JPY",
-    "THB",
-    "CHF",
-    "MYR",
-    "BGN",
-    "TRY",
-    "CNY",
-    "NOK",
-    "NZD",
-    "ZAR",
-    "MXN",
-    "SGD",
-    "ILS",
-    "KRW",
-    "PLN",
+    "EUR", //Euro
+    "USD", //US Dollar
+    "GBP", //Pound Sterling
+    "CAD", //Canadian Dollar
+    "AUD", //Australian Dollar
+    "HKD", //Hong Kong Dollar
+    "ISK", //Iceland Krona
+    "PHP", //Philippine Peso
+    "DKK", //Danish Krone
+    "HUF", //Forint
+    "CZK", //Czech Koruna
+    "RON", //New Leu
+    "SEK", //Swedish Krona
+    "IDR", //Rupiah
+    "INR", //Indian Rupee
+    "BRL", //Brazilian Real
+    "RUB", // Russian Rubble
+    "HRK", //Croatian Kuna
+    "JPY", //Yen
+    "THB", //Baht
+    "CHF", //Swiss Franc
+    "MYR", //Malaysian Ringgit
+    "BGN", //Bulgarian Lev
+    "TRY", //Turkish Lira
+    "CNY", //Yuan Renminbi
+    "NOK", //Norwegian Krone
+    "NZD", //New Zeeland Dollar
+    "ZAR", //Rand
+    "MXN", //Mexican Peso
+    "SGD", //Singapore Dollar
+    "ILS", //New Israeli Sheqel
+    "KRW", //Won
+    "PLN", //Zloty
   ];
 }
 
