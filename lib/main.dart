@@ -94,14 +94,16 @@ class _MyHomePageState extends State {
           defaultColumnWidth: FractionColumnWidth(0.45),
           children: <TableRow>[
             TableRow(children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              Container(
+                // color: Colors.blue,
+                margin: EdgeInsets.all(8.0),
+                padding: EdgeInsets.only(left: 6),
                 child: DropdownButton<String>(
                   value: baseCurrencyName,
                   items: listCurNames.map((String curName) {
                     return new DropdownMenuItem<String>(
                       value: curName,
-                      child: new Text(curName),
+                      child: createCurrListTile(curName),
                     );
                   }).toList(),
                   onChanged: (String newCurName) {
@@ -112,14 +114,16 @@ class _MyHomePageState extends State {
                   },
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
+              Container(
+                // color: Colors.blue,
+                margin: EdgeInsets.all(8.0),
+                padding: EdgeInsets.only(left: 6),
                 child: DropdownButton<String>(
                   value: targetCurrencyName,
                   items: listCurNames.map((String curName) {
-                    return new DropdownMenuItem<String>(
+                    return DropdownMenuItem<String>(
                       value: curName,
-                      child: new Text(curName),
+                      child: createCurrListTile(curName),
                     );
                   }).toList(),
                   onChanged: (String newCurName) {
@@ -160,15 +164,29 @@ class _MyHomePageState extends State {
     );
   }
 
+  Widget createCurrListTile(String currName) {
+    return Text(currName);
+    // Container(
+    //   child: ListTile(
+    //     title: Text(currName),
+    //     trailing: Text('FooBar'),
+    //     leading: Icon(Icons.euro_symbol),
+    //   ),
+    // );
+  }
+
   final List<String> listCurNames = [
+    "EUR",
+    "USD",
+    "GBP",
     "CAD",
+    "AUD",
     "HKD",
     "ISK",
     "PHP",
     "DKK",
     "HUF",
     "CZK",
-    "GBP",
     "RON",
     "SEK",
     "IDR",
@@ -179,7 +197,6 @@ class _MyHomePageState extends State {
     "JPY",
     "THB",
     "CHF",
-    "EUR",
     "MYR",
     "BGN",
     "TRY",
@@ -187,10 +204,8 @@ class _MyHomePageState extends State {
     "NOK",
     "NZD",
     "ZAR",
-    "USD",
     "MXN",
     "SGD",
-    "AUD",
     "ILS",
     "KRW",
     "PLN",
