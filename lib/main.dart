@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+//TODO: drowpdownbutton in weite begrenzen
 
 void main() {
   runApp(MyApp());
@@ -155,13 +156,11 @@ class _MyHomePageState extends State {
   Widget createCurrListTile(String currName) {
     return Container(
       height: 60,
-      width: 250,
+      width: 160,
       //color: Colors.lightBlue,
       child: ListTile(
         leading: Text(currName),
         title: Text(mapCurLongNames[currName]),
-        trailing: Image.asset('icons/currency/$currName.png',
-            package: 'currency_icons'),
       ),
     );
   }
@@ -207,7 +206,6 @@ class _MyHomePageState extends State {
     "GBP", //Pound Sterling
     "CAD", //Canadian Dollar
     "AUD", //Australian Dollar
-    "HKD", //Hong Kong Dollar
     "ISK", //Iceland Krona
     "PHP", //Philippine Peso
     "DKK", //Danish Krone
@@ -235,6 +233,7 @@ class _MyHomePageState extends State {
     "ILS", //New Israeli Sheqel
     "KRW", //Won
     "PLN", //Zloty
+    "HKD", //Hong Kong Dollar
   ];
 }
 
