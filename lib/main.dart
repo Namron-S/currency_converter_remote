@@ -92,45 +92,35 @@ class _MyHomePageState extends State {
           defaultColumnWidth: FractionColumnWidth(0.45),
           children: <TableRow>[
             TableRow(children: <Widget>[
-              Container(
-                // color: Colors.blue,
-                margin: EdgeInsets.all(8.0),
-                padding: EdgeInsets.only(left: 6),
-                child: DropdownButton<String>(
-                  value: baseCurrencyName,
-                  items: listCurNames.map((String curName) {
-                    return new DropdownMenuItem<String>(
-                      value: curName,
-                      child: createCurrListTile(curName),
-                    );
-                  }).toList(),
-                  onChanged: (String newCurName) {
-                    setState(() {
-                      baseCurrencyName = newCurName;
-                      convertCurrency();
-                    });
-                  },
-                ),
+              DropdownButton<String>(
+                value: baseCurrencyName,
+                items: listCurNames.map((String curName) {
+                  return new DropdownMenuItem<String>(
+                    value: curName,
+                    child: createCurrListTile(curName),
+                  );
+                }).toList(),
+                onChanged: (String newCurName) {
+                  setState(() {
+                    baseCurrencyName = newCurName;
+                    convertCurrency();
+                  });
+                },
               ),
-              Container(
-                // color: Colors.blue,
-                margin: EdgeInsets.all(8.0),
-                padding: EdgeInsets.only(left: 6),
-                child: DropdownButton<String>(
-                  value: targetCurrencyName,
-                  items: listCurNames.map((String curName) {
-                    return DropdownMenuItem<String>(
-                      value: curName,
-                      child: createCurrListTile(curName),
-                    );
-                  }).toList(),
-                  onChanged: (String newCurName) {
-                    setState(() {
-                      targetCurrencyName = newCurName;
-                      convertCurrency();
-                    });
-                  },
-                ),
+              DropdownButton<String>(
+                value: targetCurrencyName,
+                items: listCurNames.map((String curName) {
+                  return DropdownMenuItem<String>(
+                    value: curName,
+                    child: createCurrListTile(curName),
+                  );
+                }).toList(),
+                onChanged: (String newCurName) {
+                  setState(() {
+                    targetCurrencyName = newCurName;
+                    convertCurrency();
+                  });
+                },
               ),
             ]),
             TableRow(children: <Widget>[
@@ -163,16 +153,54 @@ class _MyHomePageState extends State {
   }
 
   Widget createCurrListTile(String currName) {
-    return Text(currName);
-    // Container(
-    //   child: ListTile(
-    //     title: Text(currName),
-    //     trailing: Text('FooBar'),
-    //     leading: Icon(Icons.euro_symbol),
-    //   ),
-    // );
+    return Container(
+      height: 60,
+      width: 250,
+      //color: Colors.lightBlue,
+      child: ListTile(
+        leading: Text(currName),
+        title: Text(mapCurLongNames[currName]),
+        trailing: Image.asset('icons/currency/$currName.png',
+            package: 'currency_icons'),
+      ),
+    );
   }
 
+  final Map<String, String> mapCurLongNames = {
+    "EUR": "Euro",
+    "USD": "US Dollar",
+    "GBP": "Pound Sterling",
+    "CAD": "Canadian Dollar",
+    "AUD": "Australian Dollar",
+    "HKD": "Hong Kong Dollar",
+    "ISK": "Iceland Krona",
+    "PHP": "Philippine Peso",
+    "DKK": "Danish Krone",
+    "HUF": "Forint",
+    "CZK": "Czech Koruna",
+    "RON": "New Leu",
+    "SEK": "Swedish Krona",
+    "IDR": "Rupiah",
+    "INR": "Indian Rupee",
+    "BRL": "Brazilian Real",
+    "RUB": "Russian Rubble",
+    "HRK": "Croatian Kuna",
+    "JPY": "Yen",
+    "THB": "Baht",
+    "CHF": "Swiss Franc",
+    "MYR": "Malaysian Ringgit",
+    "BGN": "Bulgarian Lev",
+    "TRY": "Turkish Lira",
+    "CNY": "Yuan Renminbi",
+    "NOK": "Norwegian Krone",
+    "NZD": "New Zeeland Dollar",
+    "ZAR": "Rand",
+    "MXN": "Mexican Peso",
+    "SGD": "Singapore Dollar",
+    "ILS": "New Israeli Sheqel",
+    "KRW": "Won",
+    "PLN": "Zloty",
+  };
   final List<String> listCurNames = [
     "EUR", //Euro
     "USD", //US Dollar
