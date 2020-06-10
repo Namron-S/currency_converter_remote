@@ -5,8 +5,8 @@ import 'dart:convert';
 Since dartpad doesn't support importing the http package, we use isntead of a real api call (line 55) a dummy-json-string (line 58).
 If you run this web-app on your local machine, uncomment lines 9, 55, 261-274, and comment out line 58.
 */
-
-// import 'package:http/http.dart' as http; // uncomment this line, if running on a local machine with internet connection
+// Uncomment this line, if running on a local machine with internet connection.
+// Import 'package:http/http.dart' as http; 
 
 void main() {
   runApp(MyApp());
@@ -42,7 +42,7 @@ class _MyHomePageState extends State {
   final targetAmountController = TextEditingController();
 
   void convertCurrency() {
-    //case: BaseAmount field is empty
+    //Case: BaseAmount field is empty.
     if (baseAmountController.text.isEmpty) {
       targetAmountController.text = '';
       return;
@@ -51,10 +51,10 @@ class _MyHomePageState extends State {
       targetAmountController.text = baseAmountController.text;
       return;
     }
+    //Uncomment this line when running on a local machine with internet connection.
+    //makeApiCall();
 
-    //makeApiCall(); //uncomment this line when running on a local machine with internet connection
-
-    //when running in dartpad:
+    //When running in dartpad:
     calcAndShowResultInDartPad(jsonStrInDartPad);
   }
 
