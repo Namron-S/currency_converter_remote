@@ -121,7 +121,7 @@ class _MyHomePageState extends State {
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
                   onSubmitted: (value) => convertCurrency(),
-                  inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(), labelText: 'Base Amount'),
@@ -131,7 +131,7 @@ class _MyHomePageState extends State {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
-                  inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(), labelText: 'Target Amount'),
