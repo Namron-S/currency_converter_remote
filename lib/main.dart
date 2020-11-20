@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'simple currency converter',
+      title: 'Simple Currency Converter',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -78,7 +78,7 @@ class _MyHomePageState extends State {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("A simple currency converter"),
+        title: Text("Simple Currency Converter"),
       ),
       body: Center(
         child: Table(
