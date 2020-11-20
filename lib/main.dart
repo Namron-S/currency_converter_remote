@@ -10,7 +10,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
+    //SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Simple Currency Converter',
@@ -36,18 +36,6 @@ class _MyHomePageState extends State {
   String targetCurrencyName = 'USD';
   final baseAmountController = TextEditingController();
   final targetAmountController = TextEditingController();
-
-  Widget createCurrListTile(String currName) {
-    return Container(
-      height: 60,
-      width: 160,
-      //color: Colors.lightBlue,
-      child: ListTile(
-        leading: Text(currName),
-        title: Text(mapCurLongNames[currName]),
-      ),
-    );
-  }
 
   Widget getBaseAmountInputField() {
     return TextField(
@@ -75,7 +63,7 @@ class _MyHomePageState extends State {
       items: listCurNames.map((String curName) {
         return new DropdownMenuItem<String>(
           value: curName,
-          child: createCurrListTile(curName),
+          child: Text('$curName, ${mapCurLongNames[curName]}'),
         );
       }).toList(),
       onChanged: (String newCurName) {
@@ -93,7 +81,7 @@ class _MyHomePageState extends State {
       items: listCurNames.map((String curName) {
         return DropdownMenuItem<String>(
           value: curName,
-          child: createCurrListTile(curName),
+          child: Text('$curName, ${mapCurLongNames[curName]}'),
         );
       }).toList(),
       onChanged: (String newCurName) {
