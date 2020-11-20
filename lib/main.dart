@@ -131,8 +131,9 @@ class _MyHomePageState extends State {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextField(
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  keyboardType: TextInputType.number,
+                  enabled: false,
+                  //inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  //keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(), labelText: 'Target Amount'),
                   controller: targetAmountController,
