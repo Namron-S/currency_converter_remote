@@ -100,23 +100,12 @@ class _MyHomePageState extends State {
         title: Text("Simple Currency Converter"),
       ),
       body: Center(
-        child: Table(
-          defaultColumnWidth: FractionColumnWidth(0.45),
-          children: <TableRow>[
-            TableRow(children: <Widget>[
-              getDrpDwnBttnBaseCur(),
-              getDrpDwnBttnTargetCur(),
-            ]),
-            TableRow(children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: getBaseAmountInputField(),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: getTargetAmountOutputField(),
-              ),
-            ]),
+        child: Column(
+          children: [
+            getDrpDwnBttnBaseCur(),
+            getBaseAmountInputField(),
+            getDrpDwnBttnTargetCur(),
+            getTargetAmountOutputField()
           ],
         ),
       ),
