@@ -37,6 +37,104 @@ class _MyHomePageState extends State {
   final baseAmountController = TextEditingController();
   final targetAmountController = TextEditingController();
 
+  Widget createCurrListTile(String currName) {
+    return Container(
+      height: 60,
+      width: 160,
+      //color: Colors.lightBlue,
+      child: ListTile(
+        leading: Text(currName),
+        title: Text(mapCurLongNames[currName]),
+      ),
+    );
+  }
+
+  Widget getBaseAmountInputField() {
+    return TextField(
+      onSubmitted: (value) => convertCurrency(),
+      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+          border: OutlineInputBorder(), labelText: 'Base Amount'),
+      controller: baseAmountController,
+    );
+  }
+
+  Widget getTargetAmountOutputField() {
+    return TextField(
+      enabled: false,
+      decoration: InputDecoration(
+          border: OutlineInputBorder(), labelText: 'Target Amount'),
+      controller: targetAmountController,
+    );
+  }
+
+  Widget getDrpDwnBttnBaseCur() {
+    return DropdownButton<String>(
+      value: baseCurrencyName,
+      items: listCurNames.map((String curName) {
+        return new DropdownMenuItem<String>(
+          value: curName,
+          child: createCurrListTile(curName),
+        );
+      }).toList(),
+      onChanged: (String newCurName) {
+        setState(() {
+          baseCurrencyName = newCurName;
+          convertCurrency();
+        });
+      },
+    );
+  }
+
+  Widget getDrpDwnBttnTargetCur() {
+    return DropdownButton<String>(
+      value: targetCurrencyName,
+      items: listCurNames.map((String curName) {
+        return DropdownMenuItem<String>(
+          value: curName,
+          child: createCurrListTile(curName),
+        );
+      }).toList(),
+      onChanged: (String newCurName) {
+        setState(() {
+          targetCurrencyName = newCurName;
+          convertCurrency();
+        });
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Simple Currency Converter"),
+      ),
+      body: Center(
+        child: Table(
+          defaultColumnWidth: FractionColumnWidth(0.45),
+          children: <TableRow>[
+            TableRow(children: <Widget>[
+              getDrpDwnBttnBaseCur(),
+              getDrpDwnBttnTargetCur(),
+            ]),
+            TableRow(children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: getBaseAmountInputField(),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: getTargetAmountOutputField(),
+              ),
+            ]),
+          ],
+        ),
+      ),
+    );
+  }
+
   void convertCurrency() {
     //Case: BaseAmount field is empty.
     if (baseAmountController.text.isEmpty) {
@@ -72,90 +170,6 @@ class _MyHomePageState extends State {
     Map<String, dynamic> rates = respAsJson['rates'];
     result = rates[targetCurrencyName];
     return result;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Simple Currency Converter"),
-      ),
-      body: Center(
-        child: Table(
-          defaultColumnWidth: FractionColumnWidth(0.45),
-          children: <TableRow>[
-            TableRow(children: <Widget>[
-              DropdownButton<String>(
-                value: baseCurrencyName,
-                items: listCurNames.map((String curName) {
-                  return new DropdownMenuItem<String>(
-                    value: curName,
-                    child: createCurrListTile(curName),
-                  );
-                }).toList(),
-                onChanged: (String newCurName) {
-                  setState(() {
-                    baseCurrencyName = newCurName;
-                    convertCurrency();
-                  });
-                },
-              ),
-              DropdownButton<String>(
-                value: targetCurrencyName,
-                items: listCurNames.map((String curName) {
-                  return DropdownMenuItem<String>(
-                    value: curName,
-                    child: createCurrListTile(curName),
-                  );
-                }).toList(),
-                onChanged: (String newCurName) {
-                  setState(() {
-                    targetCurrencyName = newCurName;
-                    convertCurrency();
-                  });
-                },
-              ),
-            ]),
-            TableRow(children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  onSubmitted: (value) => convertCurrency(),
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(), labelText: 'Base Amount'),
-                  controller: baseAmountController,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  enabled: false,
-                  //inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  //keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(), labelText: 'Target Amount'),
-                  controller: targetAmountController,
-                ),
-              ),
-            ]),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget createCurrListTile(String currName) {
-    return Container(
-      height: 60,
-      width: 160,
-      //color: Colors.lightBlue,
-      child: ListTile(
-        leading: Text(currName),
-        title: Text(mapCurLongNames[currName]),
-      ),
-    );
   }
 
   final Map<String, String> mapCurLongNames = {
