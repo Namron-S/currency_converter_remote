@@ -10,7 +10,6 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Simple Currency Converter',
@@ -219,22 +218,6 @@ class _MyHomePageState extends State {
     "PLN", //Zloty
     "HKD", //Hong Kong Dollar
   ];
-  void calcAndShowResultInDartPad(String jsonString) {
-    Map<String, dynamic> respAsJson = jsonDecode(jsonString);
-    double rate = getRateInDartPad(respAsJson);
-    double newTargetAmount = calcTargetAmount(rate);
-    setTargetAmount(newTargetAmount);
-  }
-
-  double getRateInDartPad(Map<String, dynamic> respAsJson) {
-    double result = -1;
-    Map<String, dynamic> rates = respAsJson['rates'];
-    if (baseCurrencyName != "EUR")
-      result = rates[targetCurrencyName] / rates[baseCurrencyName];
-    else
-      result = rates[targetCurrencyName];
-    return result;
-  }
 
   void makeApiCall() {
     String reqUrl =
