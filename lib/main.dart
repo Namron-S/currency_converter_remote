@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter/rendering.dart';
 
 void main() {
+  debugPaintSizeEnabled = true;
   runApp(MyApp());
 }
 
@@ -92,6 +94,36 @@ class _MyHomePageState extends State {
     );
   }
 
+  Widget _buildVerticalLayout() {
+    return Column(
+      children: [
+        getDrpDwnBttnBaseCur(),
+        getBaseAmountInputField(),
+        getDrpDwnBttnTargetCur(),
+        getTargetAmountOutputField()
+      ],
+    );
+  }
+
+  Widget _buildHorizontalLayout() {
+    return Column(
+      children: <Widget>[
+        Row(
+          children: <Widget>[getDrpDwnBttnBaseCur(), getDrpDwnBttnTargetCur()],
+        ),
+        Row(
+          children: <Widget>[
+            Flexible(
+              child: getBaseAmountInputField(),
+              fit: FlexFit.loose,
+            ),
+            Flexible(child: getTargetAmountOutputField(), fit: FlexFit.loose)
+          ],
+        )
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,13 +131,10 @@ class _MyHomePageState extends State {
         title: Text("Simple Currency Converter"),
       ),
       body: Center(
-        child: Column(
-          children: [
-            getDrpDwnBttnBaseCur(),
-            getBaseAmountInputField(),
-            getDrpDwnBttnTargetCur(),
-            getTargetAmountOutputField()
-          ],
+        child: OrientationBuilder(
+          builder: (context, orientation) => orientation == Orientation.portrait
+              ? _buildVerticalLayout()
+              : _buildHorizontalLayout(),
         ),
       ),
     );
