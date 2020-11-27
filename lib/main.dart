@@ -39,22 +39,28 @@ class _MyHomePageState extends State {
   final targetAmountController = TextEditingController();
 
   Widget getBaseAmountInputField() {
-    return TextField(
-      onSubmitted: (value) => convertCurrency(),
-      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-      keyboardType: TextInputType.number,
-      decoration: InputDecoration(
-          border: OutlineInputBorder(), labelText: 'Base Amount'),
-      controller: baseAmountController,
+    return Container(
+      width: 200,
+      child: TextField(
+        onSubmitted: (value) => convertCurrency(),
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        keyboardType: TextInputType.number,
+        decoration: InputDecoration(
+            border: OutlineInputBorder(), labelText: 'Base Amount'),
+        controller: baseAmountController,
+      ),
     );
   }
 
   Widget getTargetAmountOutputField() {
-    return TextField(
-      enabled: false,
-      decoration: InputDecoration(
-          border: OutlineInputBorder(), labelText: 'Target Amount'),
-      controller: targetAmountController,
+    return Container(
+      width: 200,
+      child: TextField(
+        enabled: false,
+        decoration: InputDecoration(
+            border: OutlineInputBorder(), labelText: 'Target Amount'),
+        controller: targetAmountController,
+      ),
     );
   }
 
@@ -96,6 +102,7 @@ class _MyHomePageState extends State {
 
   Widget _buildVerticalLayout() {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         getDrpDwnBttnBaseCur(),
         getBaseAmountInputField(),
@@ -107,17 +114,21 @@ class _MyHomePageState extends State {
 
   Widget _buildHorizontalLayout() {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[getDrpDwnBttnBaseCur(), getDrpDwnBttnTargetCur()],
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Flexible(
               child: getBaseAmountInputField(),
-              fit: FlexFit.loose,
             ),
-            Flexible(child: getTargetAmountOutputField(), fit: FlexFit.loose)
+            Flexible(
+              child: getTargetAmountOutputField(),
+            )
           ],
         )
       ],
