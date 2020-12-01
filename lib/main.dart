@@ -4,6 +4,13 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/rendering.dart';
 
+/*TODO: Fehlermeldung bei "wifi-offline" geben.
+E/flutter (14250): [ERROR:flutter/lib/ui/ui_dart_state.cc(177)]
+Unhandled Exception: SocketException: Failed host lookup: 'api.exchangeratesapi.io' 
+(OS Error: No address associated with hostname, errno = 7)
+*/
+
+//TOOD: OrientationBuilder -> txtInputField Exception lösen
 void main() {
   debugPaintSizeEnabled = true;
   runApp(MyApp());
@@ -137,16 +144,15 @@ class _MyHomePageState extends State {
 
   @override
   Widget build(BuildContext context) {
+    Orientation orientation = MediaQuery.of(context).orientation;
     return Scaffold(
       appBar: AppBar(
         title: Text("Simple Currency Converter"),
       ),
       body: Center(
-        child: OrientationBuilder(
-          builder: (context, orientation) => orientation == Orientation.portrait
-              ? _buildVerticalLayout()
-              : _buildHorizontalLayout(),
-        ),
+        child: orientation == Orientation.portrait
+            ? _buildVerticalLayout()
+            : _buildHorizontalLayout(),
       ),
     );
   }
