@@ -287,9 +287,11 @@ class _MyHomePageState extends State {
   }
 
   void handleError(error, BuildContext context) {
-    if (error.runtimeType.toString() == 'SocketException')
+    if (error.runtimeType.toString() == 'SocketException') {
+      targetAmountController.clear();
       showAlertDialog(
           context, 'Networkerror. Please check your networkconnection.');
+    }
   }
 
   void processResp(http.Response resp) {
