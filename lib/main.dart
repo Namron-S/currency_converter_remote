@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/rendering.dart';
 
 void main() {
-//  debugPaintSizeEnabled = true;
+  //debugPaintSizeEnabled = true;
   runApp(MyApp());
 }
 
@@ -46,7 +46,9 @@ class _MyHomePageState extends State {
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
-            border: OutlineInputBorder(), labelText: 'Base Amount'),
+          border: OutlineInputBorder(),
+          labelText: 'Base Amount',
+        ),
         controller: baseAmountController,
       ),
     );
@@ -104,9 +106,23 @@ class _MyHomePageState extends State {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        getDrpDwnBttnBaseCur(ctx),
-        getBaseAmountInputField(ctx),
-        getDrpDwnBttnTargetCur(ctx),
+        Container(
+            padding: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+                border: Border.all(color: Theme.of(context).accentColor),
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            margin: EdgeInsets.only(bottom: 10),
+            child: getDrpDwnBttnBaseCur(ctx)),
+        Container(
+            margin: EdgeInsets.only(bottom: 20),
+            child: getBaseAmountInputField(ctx)),
+        Container(
+            padding: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+                border: Border.all(color: Theme.of(context).accentColor),
+                borderRadius: BorderRadius.all(Radius.circular(10.0))),
+            margin: EdgeInsets.only(bottom: 10),
+            child: getDrpDwnBttnTargetCur(ctx)),
         getTargetAmountOutputField(),
       ],
     );
