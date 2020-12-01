@@ -4,15 +4,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/rendering.dart';
 
-/*TODO: Fehlermeldung bei "wifi-offline" geben.
-E/flutter (14250): [ERROR:flutter/lib/ui/ui_dart_state.cc(177)]
-Unhandled Exception: SocketException: Failed host lookup: 'api.exchangeratesapi.io' 
-(OS Error: No address associated with hostname, errno = 7)
-*/
-
-//TOOD: OrientationBuilder -> txtInputField Exception lösen
 void main() {
-  debugPaintSizeEnabled = true;
+//  debugPaintSizeEnabled = true;
   runApp(MyApp());
 }
 
@@ -45,11 +38,11 @@ class _MyHomePageState extends State {
   final baseAmountController = TextEditingController();
   final targetAmountController = TextEditingController();
 
-  Widget getBaseAmountInputField() {
+  Widget getBaseAmountInputField(BuildContext ctx) {
     return Container(
       width: 200,
       child: TextField(
-        onSubmitted: (value) => convertCurrency(),
+        onSubmitted: (value) => convertCurrency(ctx),
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
@@ -71,7 +64,7 @@ class _MyHomePageState extends State {
     );
   }
 
-  Widget getDrpDwnBttnBaseCur() {
+  Widget getDrpDwnBttnBaseCur(BuildContext ctx) {
     return DropdownButton<String>(
       value: baseCurrencyName,
       items: listCurNames.map((String curName) {
@@ -83,13 +76,13 @@ class _MyHomePageState extends State {
       onChanged: (String newCurName) {
         setState(() {
           baseCurrencyName = newCurName;
-          convertCurrency();
+          convertCurrency(ctx);
         });
       },
     );
   }
 
-  Widget getDrpDwnBttnTargetCur() {
+  Widget getDrpDwnBttnTargetCur(BuildContext ctx) {
     return DropdownButton<String>(
       value: targetCurrencyName,
       items: listCurNames.map((String curName) {
@@ -101,37 +94,40 @@ class _MyHomePageState extends State {
       onChanged: (String newCurName) {
         setState(() {
           targetCurrencyName = newCurName;
-          convertCurrency();
+          convertCurrency(ctx);
         });
       },
     );
   }
 
-  Widget _buildVerticalLayout() {
+  Widget _buildVerticalLayout(BuildContext ctx) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        getDrpDwnBttnBaseCur(),
-        getBaseAmountInputField(),
-        getDrpDwnBttnTargetCur(),
-        getTargetAmountOutputField()
+        getDrpDwnBttnBaseCur(ctx),
+        getBaseAmountInputField(ctx),
+        getDrpDwnBttnTargetCur(ctx),
+        getTargetAmountOutputField(),
       ],
     );
   }
 
-  Widget _buildHorizontalLayout() {
+  Widget _buildHorizontalLayout(BuildContext ctx) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[getDrpDwnBttnBaseCur(), getDrpDwnBttnTargetCur()],
+          children: <Widget>[
+            getDrpDwnBttnBaseCur(ctx),
+            getDrpDwnBttnTargetCur(ctx)
+          ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Flexible(
-              child: getBaseAmountInputField(),
+              child: getBaseAmountInputField(ctx),
             ),
             Flexible(
               child: getTargetAmountOutputField(),
@@ -151,13 +147,13 @@ class _MyHomePageState extends State {
       ),
       body: Center(
         child: orientation == Orientation.portrait
-            ? _buildVerticalLayout()
-            : _buildHorizontalLayout(),
+            ? _buildVerticalLayout(context)
+            : _buildHorizontalLayout(context),
       ),
     );
   }
 
-  void convertCurrency() {
+  void convertCurrency(BuildContext ctx) {
     //Case: BaseAmount field is empty.
     if (baseAmountController.text.isEmpty) {
       targetAmountController.text = '';
@@ -167,7 +163,7 @@ class _MyHomePageState extends State {
       targetAmountController.text = baseAmountController.text;
       return;
     }
-    makeApiCall();
+    makeApiCall(ctx);
   }
 
   void calcAndShowResult(String jsonString) {
@@ -265,11 +261,19 @@ class _MyHomePageState extends State {
     "HKD", //Hong Kong Dollar
   ];
 
-  void makeApiCall() {
+  void makeApiCall(BuildContext ctx) {
     String reqUrl =
         'https://api.exchangeratesapi.io/latest?base=$baseCurrencyName';
     Future<http.Response> resp = http.get(reqUrl);
-    resp.then((value) => processResp(value));
+    resp
+        .then((value) => processResp(value))
+        .catchError((error) => handleError(error, ctx));
+  }
+
+  void handleError(error, BuildContext context) {
+    if (error.runtimeType.toString() == 'SocketException')
+      showAlertDialog(
+          context, 'Networkerror. Please check your networkconnection.');
   }
 
   void processResp(http.Response resp) {
