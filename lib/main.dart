@@ -132,23 +132,42 @@ class _MyHomePageState extends State {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            getDrpDwnBttnBaseCur(ctx),
-            getDrpDwnBttnTargetCur(ctx)
-          ],
+        Flexible(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                child: getDrpDwnBttnBaseCur(ctx),
+                margin: EdgeInsets.only(right: 20, bottom: 10),
+                padding: EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Theme.of(context).accentColor),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              ),
+              Container(
+                child: getDrpDwnBttnTargetCur(ctx),
+                margin: EdgeInsets.only(bottom: 5),
+                padding: EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Theme.of(context).accentColor),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+              )
+            ],
+          ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Flexible(
-              child: getBaseAmountInputField(ctx),
-            ),
-            Flexible(
-              child: getTargetAmountOutputField(),
-            )
-          ],
+        Flexible(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(right: 10),
+                child: getBaseAmountInputField(ctx),
+              ),
+              Container(
+                child: getTargetAmountOutputField(),
+              )
+            ],
+          ),
         )
       ],
     );
