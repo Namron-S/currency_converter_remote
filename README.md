@@ -1,6 +1,7 @@
 # currency_converter
 
 A new Flutter project.
+The project uses the [exchangerates api](https://exchangeratesapi.io/documentation/).
 
 ## Getting Started
 

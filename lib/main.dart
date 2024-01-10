@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:flutter/rendering.dart';
+import 'api_keys.dart';
 
 void main() {
   //debugPaintSizeEnabled = true;
-  runApp(MyApp());
+  runApp(MyApp(key: UniqueKey()));
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({required Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,34 +19,33 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(),
+      home: MyHomePage(
+        key: UniqueKey(),
+      ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({
-    Key key,
-  }) : super(key: key);
-
+  const MyHomePage({required Key key}) : super(key: key);
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  MyHomePageState createState() => MyHomePageState();
 }
 
-class _MyHomePageState extends State {
+class MyHomePageState extends State {
   String baseCurrencyName = 'EUR';
   String targetCurrencyName = 'USD';
   final baseAmountController = TextEditingController();
   final targetAmountController = TextEditingController();
 
   Widget getBaseAmountInputField(BuildContext ctx) {
-    return Container(
+    return SizedBox(
       width: 200,
       child: TextField(
         onSubmitted: (value) => convertCurrency(ctx),
         inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         keyboardType: TextInputType.number,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           border: OutlineInputBorder(),
           labelText: 'Base Amount',
         ),
@@ -55,11 +55,11 @@ class _MyHomePageState extends State {
   }
 
   Widget getTargetAmountOutputField() {
-    return Container(
+    return SizedBox(
       width: 200,
       child: TextField(
         enabled: false,
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
             border: OutlineInputBorder(), labelText: 'Target Amount'),
         controller: targetAmountController,
       ),
@@ -70,14 +70,14 @@ class _MyHomePageState extends State {
     return DropdownButton<String>(
       value: baseCurrencyName,
       items: listCurNames.map((String curName) {
-        return new DropdownMenuItem<String>(
+        return DropdownMenuItem<String>(
           value: curName,
           child: Text('$curName, ${mapCurLongNames[curName]}'),
         );
       }).toList(),
-      onChanged: (String newCurName) {
+      onChanged: (String? newCurName) {
         setState(() {
-          baseCurrencyName = newCurName;
+          baseCurrencyName = newCurName!;
           convertCurrency(ctx);
         });
       },
@@ -93,9 +93,9 @@ class _MyHomePageState extends State {
           child: Text('$curName, ${mapCurLongNames[curName]}'),
         );
       }).toList(),
-      onChanged: (String newCurName) {
+      onChanged: (String? newCurName) {
         setState(() {
-          targetCurrencyName = newCurName;
+          targetCurrencyName = newCurName!;
           convertCurrency(ctx);
         });
       },
@@ -107,21 +107,23 @@ class _MyHomePageState extends State {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
-                border: Border.all(color: Theme.of(context).accentColor),
-                borderRadius: BorderRadius.all(Radius.circular(10.0))),
-            margin: EdgeInsets.only(bottom: 10),
+                border:
+                    Border.all(color: Theme.of(context).colorScheme.secondary),
+                borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+            margin: const EdgeInsets.only(bottom: 10),
             child: getDrpDwnBttnBaseCur(ctx)),
         Container(
-            margin: EdgeInsets.only(bottom: 20),
+            margin: const EdgeInsets.only(bottom: 20),
             child: getBaseAmountInputField(ctx)),
         Container(
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
-                border: Border.all(color: Theme.of(context).accentColor),
-                borderRadius: BorderRadius.all(Radius.circular(10.0))),
-            margin: EdgeInsets.only(bottom: 10),
+                border:
+                    Border.all(color: Theme.of(context).colorScheme.secondary),
+                borderRadius: const BorderRadius.all(Radius.circular(10.0))),
+            margin: const EdgeInsets.only(bottom: 10),
             child: getDrpDwnBttnTargetCur(ctx)),
         getTargetAmountOutputField(),
       ],
@@ -137,20 +139,24 @@ class _MyHomePageState extends State {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                child: getDrpDwnBttnBaseCur(ctx),
-                margin: EdgeInsets.only(right: 20, bottom: 10),
-                padding: EdgeInsets.all(5),
+                margin: const EdgeInsets.only(right: 20, bottom: 10),
+                padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
-                    border: Border.all(color: Theme.of(context).accentColor),
-                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    border: Border.all(
+                        color: Theme.of(context).colorScheme.secondary),
+                    borderRadius:
+                        const BorderRadius.all(Radius.circular(10.0))),
+                child: getDrpDwnBttnBaseCur(ctx),
               ),
               Container(
-                child: getDrpDwnBttnTargetCur(ctx),
-                margin: EdgeInsets.only(bottom: 5),
-                padding: EdgeInsets.all(5),
+                margin: const EdgeInsets.only(bottom: 5),
+                padding: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
-                    border: Border.all(color: Theme.of(context).accentColor),
-                    borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    border: Border.all(
+                        color: Theme.of(context).colorScheme.secondary),
+                    borderRadius:
+                        const BorderRadius.all(Radius.circular(10.0))),
+                child: getDrpDwnBttnTargetCur(ctx),
               )
             ],
           ),
@@ -160,7 +166,7 @@ class _MyHomePageState extends State {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(right: 10),
+                margin: const EdgeInsets.only(right: 10),
                 child: getBaseAmountInputField(ctx),
               ),
               Container(
@@ -178,7 +184,7 @@ class _MyHomePageState extends State {
     Orientation orientation = MediaQuery.of(context).orientation;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Simple Currency Converter"),
+        title: const Text("Simple Currency Converter"),
       ),
       body: Center(
         child: orientation == Orientation.portrait
@@ -297,9 +303,12 @@ class _MyHomePageState extends State {
   ];
 
   void makeApiCall(BuildContext ctx) {
-    String reqUrl =
-        'https://api.exchangeratesapi.io/latest?base=$baseCurrencyName';
-    Future<http.Response> resp = http.get(reqUrl);
+    Uri uri = Uri(
+        scheme: 'https',
+        host: 'api.exchangeratesapi.io',
+        path: '/v1/latest',
+        queryParameters: {'access_key': exRateKey, 'base': baseCurrencyName});
+    Future<http.Response> resp = http.get(uri);
     resp
         .then((value) => processResp(value))
         .catchError((error) => handleError(error, ctx));
@@ -310,6 +319,8 @@ class _MyHomePageState extends State {
       targetAmountController.clear();
       showAlertDialog(
           context, 'Networkerror. Please check your networkconnection.');
+    } else {
+      showAlertDialog(context, 'Unexpected error: $error');
     }
   }
 
@@ -327,15 +338,14 @@ Future<void> showAlertDialog(BuildContext context, String msg) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Info'),
+        title: const Text('Info'),
         content: Text(msg),
         actions: <Widget>[
-          FlatButton(
-            child: Text('Ok'),
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Ok')),
         ],
       );
     },
